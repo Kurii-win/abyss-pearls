@@ -33,3 +33,39 @@ test('Play page in free spins', async ({ page }) => {
   await page.waitForTimeout(1_000)
   await page.getByTestId('slot').screenshot({ path: 'docs/screens/play-free-spins.png' })
 })
+
+test.describe('portfolio pages (desktop)', () => {
+  for (const [path, name] of [
+    ['/', 'home'],
+    ['/math', 'math'],
+    ['/architecture', 'architecture'],
+    ['/contact', 'contact'],
+  ] as const) {
+    test(`${name} page`, async ({ page }) => {
+      await page.goto(path)
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+      await page.screenshot({ path: `docs/screens/${name}.png`, fullPage: true })
+    })
+  }
+
+  test('rules dialog', async ({ page }) => {
+    await page.goto('/play')
+    await page.getByTestId('rules-button').click()
+    await expect(page.getByRole('dialog', { name: 'Rules & paytable' })).toBeVisible()
+    await page.screenshot({ path: 'docs/screens/rules.png' })
+  })
+})
+
+test.describe('portfolio pages (390 px)', () => {
+  test.use({ viewport: { width: 390, height: 844 } })
+  for (const [path, name] of [
+    ['/', 'home'],
+    ['/math', 'math'],
+  ] as const) {
+    test(`${name} page, mobile`, async ({ page }) => {
+      await page.goto(path)
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+      await page.screenshot({ path: `docs/screens/${name}-mobile.png`, fullPage: true })
+    })
+  }
+})

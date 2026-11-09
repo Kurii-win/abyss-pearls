@@ -15,7 +15,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+    "resolveJsonModule": true
   },
   "include": ["vite.config.ts", "playwright.config.ts", "tests/e2e", "tests/unit", "tests/sim", "tools/sim"]
 }

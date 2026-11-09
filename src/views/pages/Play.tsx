@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { useCallback, useState } from 'react'
 import { useMediaQuery } from '../../controllers/useMediaQuery'
 import { useSlotMachine } from '../../controllers/useSlotMachine'
 import { useSpinHotkey } from '../../controllers/useSpinHotkey'
@@ -10,6 +10,7 @@ import BetSelector from '../game/BetSelector'
 import FreeSpinsBanner from '../game/FreeSpinsBanner'
 import GetFreePearlsButton from '../game/GetFreePearlsButton'
 import HistoryPanel from '../game/HistoryPanel'
+import RulesDialog from '../game/RulesDialog'
 import { DESKTOP_SCALE, NARROW_SCALE } from '../game/layout'
 import ReelSet from '../game/ReelSet'
 import SpinButton from '../game/SpinButton'
@@ -22,7 +23,9 @@ export default function Play() {
   const scale = narrow ? NARROW_SCALE : DESKTOP_SCALE
   const highlights = m.reels.winHighlights
   const step = useWinCycle(m.spinKey, highlights.length, m.timing.winCycleMs)
-  useSpinHotkey(m.pressSpin)
+  const [rulesOpen, setRulesOpen] = useState(false)
+  const closeRules = useCallback(() => setRulesOpen(false), [])
+  useSpinHotkey(m.pressSpin, !rulesOpen)
 
   const winLabel =
     m.showHighlights && highlights.length > 0
@@ -35,6 +38,7 @@ export default function Play() {
 
   return (
     <main className="play">
+      <title>Play — Abyss Pearls</title>
       <div
         className={`stage${m.featureActive ? ' stage--free' : ''}`}
         data-testid="slot"
@@ -75,6 +79,9 @@ export default function Play() {
 
         <div className="controls">
           <BetSelector options={m.betOptions} level={m.betLevel} disabled={!m.canChangeBet} onChange={m.setBetLevel} />
+          <button type="button" className="chip" data-testid="rules-button" onClick={() => setRulesOpen(true)}>
+            Rules &amp; paytable
+          </button>
           <GetFreePearlsButton
             enabled={m.canClaimFreePearls}
             grant={m.freePearlsGrant}
@@ -94,9 +101,7 @@ export default function Play() {
         {m.announcement}
       </div>
 
-      <p>
-        <Link to="/">Back to Home</Link>
-      </p>
+      <RulesDialog open={rulesOpen} betLevel={m.betLevel} onClose={closeRules} />
     </main>
   )
 }

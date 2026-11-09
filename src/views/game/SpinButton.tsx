@@ -1,4 +1,5 @@
 import type { SpinButtonMode } from '../../controllers/useSlotMachine'
+import { isRepeatedActivationKey } from '../../controllers/useSpinHotkey'
 import idle from '../../assets/ui/spin_button_idle.png'
 import pressed from '../../assets/ui/spin_button_pressed.png'
 import disabled from '../../assets/ui/spin_button_disabled.png'
@@ -32,6 +33,10 @@ export default function SpinButton({ mode, enabled, scale, onPress }: SpinButton
       aria-label={mode === 'freespins' && enabled ? 'Stop reels' : LABEL[mode]}
       disabled={!enabled}
       onClick={onPress}
+      onKeyDown={(e) => {
+        // Holding Enter must not auto-repeat spins / slam stops.
+        if (isRepeatedActivationKey(e)) e.preventDefault()
+      }}
       style={{ width: size, height: size }}
     >
       <img src={ART[mode]} alt="" width={size} height={size} draggable={false} />

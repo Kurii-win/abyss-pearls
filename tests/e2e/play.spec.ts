@@ -55,6 +55,22 @@ test.describe('Play page', () => {
     expect(await value(page, 'balance')).toBe(10_000 - 25 + result.totalCoins)
   })
 
+  test('holding Enter on the Spin button does not auto-repeat (M3 issue 1)', async ({ page }) => {
+    await page.goto(`/play?seed=${BASE_WIN_SEED}`)
+    await expect(page.getByTestId('slot')).toHaveAttribute('data-phase', 'IDLE')
+    await page.getByTestId('spin-button').focus()
+    await page.keyboard.down('Enter')
+    await expect(page.getByTestId('spin-button')).toHaveAttribute('data-mode', 'stop')
+    // Further keydowns while held are auto-repeats: they must not slam-stop the reels.
+    await page.keyboard.down('Enter')
+    await page.keyboard.down('Enter')
+    await page.waitForTimeout(250)
+    expect(await page.getByTestId('slot').getAttribute('data-phase')).toMatch(/SPINNING|STOPPING/)
+    await page.keyboard.up('Enter')
+    await expect(page.getByTestId('slot')).toHaveAttribute('data-phase', 'IDLE', { timeout: 5_000 })
+    expect(await value(page, 'balance')).toBe(10_000 - 25 + expected(BASE_WIN_SEED).totalCoins)
+  })
+
   test('bet level scales the bet and the win', async ({ page }) => {
     const result = expected(BASE_WIN_SEED)
     await page.goto(`/play?seed=${BASE_WIN_SEED}`)
@@ -103,8 +119,9 @@ test.describe('Play page', () => {
   test('wallet UI: free Pearls disabled at 10,000, demo notice shown, no payment UI', async ({ page }) => {
     await page.goto('/play')
     await expect(page.getByRole('button', { name: /Get Free Pearls/ })).toBeDisabled()
-    await expect(page.getByText('Demo — ✦ Pearls have no monetary value')).toBeVisible()
-    await expect(page.getByText(/deposit|withdraw|cash ?out|purchase|buy/i)).toHaveCount(0)
+    await expect(page.getByTestId('slot').getByText('Demo — ✦ Pearls have no monetary value')).toBeVisible()
+    // The footer's required notice says Pearls "cannot be purchased", so allow exactly that wording.
+    await expect(page.getByText(/deposit|withdraw|cash ?out|purchase(?!d or redeemed)|\bbuy/i)).toHaveCount(0)
   })
 
   test('balance and history persist across a reload', async ({ page }) => {

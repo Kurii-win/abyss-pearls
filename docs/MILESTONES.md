@@ -24,10 +24,10 @@ Each milestone starts with `/mentor` and ends with `tester` PASS.
 - [x] Pearls wallet: balance, bet size, "Get Free Pearls", session history
 
 ## M4. Portfolio pages
-- [ ] Home (hero + pitch + Play Demo)
-- [ ] Math & Fairness (reads `reports/rtp-report.json`)
-- [ ] Architecture (MVC diagram, "RGS-ready" explanation)
-- [ ] Contact
+- [x] Home (hero + pitch + Play Demo)
+- [x] Math & Fairness (reads `reports/rtp-report.json`)
+- [x] Architecture (MVC diagram, "RGS-ready" explanation)
+- [x] Contact
 
 ## M5. Polish and pitch-ready
 - [ ] Sound, juice, mobile layout
