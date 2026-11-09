@@ -30,6 +30,6 @@ Each milestone starts with `/mentor` and ends with `tester` PASS.
 - [x] Contact
 
 ## M5. Polish and pitch-ready
-- [ ] Sound, juice, mobile layout
-- [ ] Playwright smoke tests green
-- [ ] Production build runs from `npm run preview`
+- [x] Sound, juice, mobile layout
+- [x] Playwright smoke tests green
+- [x] Production build runs from `npm run preview`

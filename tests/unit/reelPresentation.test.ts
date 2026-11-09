@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   announcement,
+  baseSpinCapped,
   bigWinView,
   faceAt,
   featureView,
@@ -9,6 +10,8 @@ import {
   stripFaces,
   wayWinCells,
   whaleSegment,
+  winLabel,
+  type WinHighlight,
 } from '../../src/controllers/reelPresentation'
 import { createInitialState, slotReducer, type SlotAction, type SlotState } from '../../src/controllers/slotReducer'
 import { BASE_STRIPS, FREE_SPIN_STRIPS } from '../../src/models/reelStrips'
@@ -123,6 +126,47 @@ describe('reelSetView', () => {
     const v = reelSetView(s.round, s.freeSpinIndex)
     expect(s.round!.result.feature!.spins[1].capped).toBe(true)
     for (const h of v.winHighlights) expect(h.label).not.toMatch(/✦/)
+  })
+
+  it('a feature that hits the cap keeps the BASE spin labels with amounts (tester M3 a)', () => {
+    const capped = cappedFeatureResult()
+    expect(capped.capped).toBe(true)
+    expect(baseSpinCapped(capped)).toBe(false)
+    const s = run(fresh(), { type: 'SPIN', result: capped }, ...STOP_ALL, { type: 'REVEAL' })
+    expect(s.freeSpinIndex).toBeNull()
+    const v = reelSetView(s.round, s.freeSpinIndex)
+    expect(v.winHighlights.length).toBeGreaterThan(0)
+    for (const h of v.winHighlights) expect(h.label).toMatch(/· [\d,]+ ✦$/)
+  })
+
+  it('a base spin cut by the cap hides its per-way amounts', () => {
+    const win = BASE_WIN.wayWins[0]
+    const cappedBase = { ...BASE_WIN, baseCoins: win.coins - 1, totalCoins: win.coins - 1, capped: true }
+    expect(baseSpinCapped(cappedBase)).toBe(true)
+    expect(baseSpinCapped(BASE_WIN)).toBe(false)
+    const s = slotReducer(fresh(), { type: 'SPIN', result: cappedBase })
+    for (const h of reelSetView(s.round, null).winHighlights) expect(h.label).not.toMatch(/✦/)
+  })
+})
+
+describe('winLabel', () => {
+  const cells = [[false]]
+  const hl = (label: string): WinHighlight => ({ key: label, label, cells })
+
+  it('empty without wins', () => {
+    expect(winLabel([], 'all', 0)).toBe('')
+  })
+
+  it('one win shows its own label', () => {
+    expect(winLabel([hl('Shark × 3 reels · 2 ways · 150 ✦')], 'all', 150)).toBe('Shark × 3 reels · 2 ways · 150 ✦')
+  })
+
+  it('the all-wins step shows the count and the spin total (tester M3 d)', () => {
+    expect(winLabel([hl('a'), hl('b'), hl('c')], 'all', 12_500)).toBe('3 wins · 12,500 ✦')
+  })
+
+  it('a single step shows that win', () => {
+    expect(winLabel([hl('a'), hl('b')], 1, 99)).toBe('b')
   })
 })
 

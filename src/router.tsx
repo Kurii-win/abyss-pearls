@@ -5,6 +5,7 @@ import Play from './views/pages/Play.tsx'
 import MathFairness from './views/pages/MathFairness.tsx'
 import Architecture from './views/pages/Architecture.tsx'
 import Contact from './views/pages/Contact.tsx'
+import NotFound from './views/pages/NotFound.tsx'
 
 /** The whole site map in one place (React Router v7, data mode). */
 export const router = createBrowserRouter([
@@ -15,6 +16,8 @@ export const router = createBrowserRouter([
       { path: '/math', Component: MathFairness },
       { path: '/architecture', Component: Architecture },
       { path: '/contact', Component: Contact },
+      // Any other path: a 404 page with the normal nav and footer (no router error).
+      { path: '*', Component: NotFound },
     ],
   },
   {

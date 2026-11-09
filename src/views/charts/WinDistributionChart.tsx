@@ -1,5 +1,5 @@
 import { useId } from 'react'
-import type { DistributionPanel } from '../../controllers/rtpReportView'
+import { MIN_TICK_PX, type DistributionPanel } from '../../controllers/rtpReportView'
 
 interface WinDistributionChartProps {
   readonly panel: DistributionPanel
@@ -11,8 +11,8 @@ const ROW = 30
 const BAR = 18
 const TOP = 6
 const VALUE_ROOM = 72
-/** Bars thinner than this are drawn as a tick so a non-zero share never disappears. */
-const MIN_TICK = 2
+/** Bars thinner than this are drawn as a tick so a non-zero share never disappears (noted in the caption). */
+const MIN_TICK = MIN_TICK_PX
 
 /**
  * Horizontal bar chart in inline SVG. One hue, bars start at zero, each bar labelled

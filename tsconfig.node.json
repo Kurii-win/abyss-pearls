@@ -18,5 +18,5 @@
     "noUncheckedSideEffectImports": true,
     "resolveJsonModule": true
   },
-  "include": ["vite.config.ts", "playwright.config.ts", "tests/e2e", "tests/unit", "tests/sim", "tools/sim"]
+  "include": ["vite.config.ts", "playwright.config.ts", "playwright.prod.config.ts", "tests/e2e", "tests/unit", "tests/sim", "tools/sim"]
 }

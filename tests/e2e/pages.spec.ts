@@ -132,6 +132,26 @@ test.describe('Rules dialog on Play', () => {
   })
 })
 
+test('unknown paths show a 404 page inside the site layout, without errors', async ({ page }) => {
+  const errors = watchErrors(page)
+  await page.goto('/no-such-page/deeper')
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Page not found')
+  await expect(page.getByRole('navigation', { name: 'Site' })).toBeVisible()
+  await expect(page.getByTestId('not-found')).toContainText('/no-such-page/deeper')
+  await page.getByRole('link', { name: 'Back to the home page' }).click()
+  await expect(page).toHaveURL(/\/$/)
+  expect(errors).toEqual([])
+})
+
+test('Math breakdown nests base parts under the base total', async ({ page }) => {
+  await page.goto('/math')
+  const breakdown = page.getByTestId('breakdown')
+  await expect(breakdown.getByTestId('stat-base-ways')).toHaveClass(/breakdown__row--part/)
+  await expect(breakdown.getByTestId('stat-scatter')).toHaveClass(/breakdown__row--part/)
+  await expect(breakdown.getByTestId('stat-total')).toHaveClass(/breakdown__row--total/)
+  await expect(breakdown.getByTestId('stat-base-ways')).toContainText(pct(report.rtp.baseWays))
+})
+
 test('Contact has placeholders and no form', async ({ page }) => {
   await page.goto('/contact')
   await expect(page.locator('form')).toHaveCount(0)

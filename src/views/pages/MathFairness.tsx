@@ -21,6 +21,30 @@ function StatList({ items, testId }: { readonly items: readonly StatItem[]; read
   )
 }
 
+/**
+ * RTP breakdown as one ledger: the base total with its parts indented ("of which"),
+ * the feature, then the grand total set apart below a rule.
+ */
+function Breakdown({ items }: { readonly items: readonly StatItem[] }) {
+  return (
+    <dl className="breakdown" data-testid="breakdown">
+      {items.map((s) => (
+        <div
+          key={s.id}
+          data-testid={`stat-${s.id}`}
+          className={`breakdown__row${s.level === 1 ? ' breakdown__row--part' : ''}${s.total ? ' breakdown__row--total' : ''}`}
+        >
+          <dt>{s.label}</dt>
+          <dd>
+            <span className="breakdown__value">{s.value}</span>
+            {s.detail && <span className="stat-list__detail">{s.detail}</span>}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  )
+}
+
 /** Every figure on this page comes from RTP_REPORT_VIEW (reports/rtp-report.json). */
 export default function MathFairness() {
   const r = RTP_REPORT_VIEW
@@ -60,7 +84,7 @@ export default function MathFairness() {
       </section>
 
       <h2>RTP breakdown</h2>
-      <StatList items={r.breakdown} testId="breakdown" />
+      <Breakdown items={r.breakdown} />
 
       <h3>Feature by chest count</h3>
       <div className="data-table-wrap">
@@ -148,7 +172,7 @@ export default function MathFairness() {
           <div key={s.id} data-testid={`repro-${s.id}`}>
             <dt>{s.label}</dt>
             <dd>
-              <span className="hash">{s.value}</span>
+              <span className={s.hash ? 'hash' : 'repro__value'}>{s.value}</span>
               {s.detail && <span className="stat-list__detail">{s.detail}</span>}
             </dd>
           </div>

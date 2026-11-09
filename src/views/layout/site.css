@@ -442,6 +442,86 @@ main.page {
   margin: 0.15rem 0 0;
 }
 
+.repro__value {
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+/* RTP breakdown ledger: parts indented under the base total, grand total set apart. */
+.breakdown {
+  margin: 0.75rem 0;
+  max-width: 44rem;
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius);
+  background: var(--c-surface);
+  padding: 0.25rem 0;
+}
+
+.breakdown__row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.25rem 1rem;
+  padding: 0.55rem 0.9rem;
+}
+
+.breakdown__row + .breakdown__row {
+  border-top: 1px solid rgb(29 87 112 / 0.45);
+}
+
+.breakdown__row dt {
+  font-weight: 700;
+}
+
+.breakdown__row dd {
+  margin: 0;
+  text-align: right;
+}
+
+.breakdown__value {
+  display: block;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--c-gold-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+.breakdown__row--part {
+  padding-left: 2.25rem;
+  border-top-style: dashed !important;
+}
+
+.breakdown__row--part dt {
+  font-weight: 400;
+  color: var(--c-text-muted);
+}
+
+.breakdown__row--part .breakdown__value {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--c-text);
+}
+
+.breakdown__row.breakdown__row--total {
+  margin-top: 0.25rem;
+  border-top: 3px double var(--c-gold);
+}
+
+.breakdown__row--total .breakdown__value {
+  font-size: 1.35rem;
+}
+
+@media (max-width: 600px) {
+  .breakdown__row {
+    grid-template-columns: 1fr;
+  }
+  .breakdown__row dd {
+    text-align: left;
+  }
+  .breakdown__row--part {
+    padding-left: 1.5rem;
+  }
+}
+
 /* ---------------------------------------------------------------- diagrams */
 
 .diagram {
@@ -482,6 +562,14 @@ main.page {
 .diagram__text {
   fill: var(--c-text);
   font-size: 13px;
+}
+
+/* Message labels sit on a halo of page colour so lifelines never run through the text. */
+.diagram__label {
+  paint-order: stroke;
+  stroke: var(--c-bg);
+  stroke-width: 6px;
+  stroke-linejoin: round;
 }
 
 .diagram__muted {

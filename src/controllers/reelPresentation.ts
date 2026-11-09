@@ -5,7 +5,7 @@
 import { gridFromStops } from '../models/evaluator'
 import { ROWS } from '../models/paytable'
 import { BASE_STRIPS, FREE_SPIN_STRIPS } from '../models/reelStrips'
-import type { Grid, ReelStrip, ReelStrips, SymbolId, WayWin, WildMultipliers } from '../models/types'
+import type { Grid, ReelStrip, ReelStrips, SpinResult, SymbolId, WayWin, WildMultipliers } from '../models/types'
 import { displayedWin, type Round, type SlotState } from './slotReducer'
 import { isBigWin } from './slotTiming'
 
@@ -105,6 +105,16 @@ function strips(mode: 'base' | 'free'): ReelStrips {
   return mode === 'free' ? FREE_SPIN_STRIPS : BASE_STRIPS
 }
 
+/**
+ * True when the cap cut the BASE spin's own pay (its ways + scatter add up to more than
+ * it paid). `SpinResult.capped` is also true when only the feature hit the cap, which
+ * must not hide the base spin's per-way amounts (tester M3 backlog a).
+ */
+export function baseSpinCapped(result: SpinResult): boolean {
+  const parts = result.wayWins.reduce((sum, w) => sum + w.coins, result.scatterWin?.coins ?? 0)
+  return parts > result.baseCoins
+}
+
 /** What the reels show for a round (null = before the first spin) and free spin index (null = base game). */
 export function reelSetView(round: Round | null, freeSpinIndex: number | null): ReelSetView {
   const freeSpin = round && freeSpinIndex !== null ? (round.result.feature?.spins[freeSpinIndex] ?? null) : null
@@ -115,7 +125,7 @@ export function reelSetView(round: Round | null, freeSpinIndex: number | null): 
   const grid = spinResult?.grid ?? gridFromStops(reelStrips, stops, ROWS)
   const coinValue = round?.coinValue ?? 1
   // A capped spin pays less than its ways add up to, so per-way amounts are hidden then.
-  const capped = freeSpin ? freeSpin.capped : (round?.result.capped ?? false)
+  const capped = freeSpin ? freeSpin.capped : round ? baseSpinCapped(round.result) : false
 
   const winHighlights: WinHighlight[] = []
   if (spinResult) {
@@ -224,6 +234,22 @@ export function bigWinView(state: SlotState): { readonly pearls: number; readonl
 }
 
 const fmt = (n: number) => n.toLocaleString('en-US')
+
+/**
+ * The line under the reels while wins cycle: every win together ('all') shows how many
+ * wins and what the spin paid; each single step shows that win's own label.
+ * `spinWinPearls` is what the spin on the reels paid (after any cap).
+ */
+export function winLabel(
+  highlights: readonly WinHighlight[],
+  step: 'all' | number,
+  spinWinPearls: number,
+): string {
+  if (highlights.length === 0) return ''
+  if (step !== 'all') return highlights[step]?.label ?? ''
+  if (highlights.length === 1) return highlights[0].label
+  return `${highlights.length} wins · ${fmt(spinWinPearls)} ✦`
+}
 
 /** Text for the aria-live region. Empty while nothing new is known. */
 export function announcement(state: SlotState): string {

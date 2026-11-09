@@ -95,6 +95,34 @@ main.play {
   }
 }
 
+/* Scatter anticipation: the remaining reels glow while they spin a little longer. */
+.reel--anticipating::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 3px #ffd36b, inset 0 0 22px 6px rgb(255 211 107 / 0.55);
+  animation: reel-tease 0.45s ease-in-out infinite alternate;
+}
+
+@keyframes reel-tease {
+  from { opacity: 0.55; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reel--anticipating::after { animation: none; }
+}
+
+/* Big win: the reels sink into the dark behind the celebration. */
+.reel-window {
+  transition: filter 0.25s ease-out;
+}
+
+.reel-frame--dimmed .reel-window {
+  filter: brightness(0.4) saturate(0.6);
+}
+
 .cell-overlay {
   position: absolute;
   inset: 0;
@@ -195,6 +223,46 @@ main.play {
   gap: 0.75rem;
   align-items: center;
   justify-content: center;
+}
+
+.controls__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.bet-selector-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.bet-lock-hint {
+  max-width: 22rem;
+  text-align: center;
+  color: #ffe9a8;
+}
+
+.mute-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.mute-button__icon {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: #6fd6e8;
+  box-shadow: 0 0 6px rgb(111 214 232 / 0.8);
+}
+
+.mute-button--muted .mute-button__icon {
+  background: transparent;
+  box-shadow: inset 0 0 0 2px #7b98a6;
 }
 
 .bet-selector {
@@ -315,8 +383,52 @@ main.play {
 }
 
 .win-overlay--big {
+  cursor: pointer;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, rgb(40 24 0 / 0.55), rgb(2 10 22 / 0.65) 70%);
+}
+
+.win-overlay--big > p {
+  position: relative;
+}
+
+.win-overlay__skip {
+  position: relative;
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  opacity: 0.85;
+}
+
+/* Pearl burst: a fixed pattern of pearls flying out from the centre (decoration only). */
+.pearl-burst {
+  position: absolute;
+  inset: 0;
   pointer-events: none;
-  background: rgb(2 10 22 / 0.55);
+}
+
+.pearl-burst__pearl {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--size);
+  height: var(--size);
+  margin: calc(var(--size) / -2) 0 0 calc(var(--size) / -2);
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff 0 18%, #f4ecd6 30%, #c9b88f 75%, #8f7d58 100%);
+  box-shadow: 0 0 6px rgb(255 233 168 / 0.7);
+  opacity: 0;
+  animation: pearl-fly 1.4s cubic-bezier(0.15, 0.7, 0.3, 1) var(--delay) infinite;
+}
+
+@keyframes pearl-fly {
+  0% { transform: translate(0, 0) scale(0.4); opacity: 0; }
+  12% { opacity: 1; }
+  80% { opacity: 0.9; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(1); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pearl-burst { display: none; }
 }
 
 .win-overlay--feature {
@@ -360,14 +472,61 @@ main.play {
   color: #ffe9a8;
 }
 
+/* Phones (portrait): reels edge to edge on top, then a big Spin button, the balance bar,
+   bet chips and the other buttons. Every control is at least 44 px tall. */
 @media (max-width: 680px) {
+  main.play {
+    padding: 0 0 2rem;
+  }
+  .stage {
+    padding: 0.75rem 0 1.25rem;
+    gap: 0.6rem;
+    border-radius: 0;
+  }
+  .stage__title {
+    font-size: 1.2rem;
+  }
+  .demo-note {
+    font-size: 0.75rem;
+  }
   .machine {
     flex-direction: column;
+    gap: 0.75rem;
   }
   .win-overlay__headline {
     font-size: 1.6rem;
   }
   .balance-bar__well {
-    font-size: 0.7rem;
+    font-size: 0.75rem;
+  }
+  .controls {
+    flex-direction: column;
+    padding: 0 0.5rem;
+  }
+  .chip {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.35rem 0.55rem;
+  }
+  .bet-selector {
+    gap: 0.35rem;
+    padding: 0.25rem 0.4rem;
+  }
+  .hint {
+    padding: 0 0.75rem;
+    text-align: center;
+  }
+  .hint--keys {
+    display: none;
+  }
+  .history-panel {
+    margin: 1rem 0.5rem 0;
+  }
+}
+
+@media (pointer: coarse) {
+  .chip {
+    min-height: 44px;
+    min-width: 44px;
   }
 }

@@ -3,6 +3,7 @@
  * it on. Pure, so the schedule is unit-tested; useSlotMachine only runs the timers.
  */
 import { COINS_PER_BET } from '../models/paytable'
+import { reelAnticipates } from './anticipation'
 import { currentSpinCoins, type SlotAction, type SlotState } from './slotReducer'
 
 export interface SlotTiming {
@@ -10,6 +11,8 @@ export interface SlotTiming {
   readonly spinMs: number
   /** Gap between one reel stopping and the next. */
   readonly reelStaggerMs: number
+  /** Extra spin time for each reel that anticipates a scatter (see anticipation.ts). */
+  readonly anticipationMs: number
   /** Pause on the stopped reels before wins show. */
   readonly evaluateMs: number
   /** Pause on a losing free spin before the next one starts. */
@@ -28,6 +31,7 @@ export interface SlotTiming {
 export const NORMAL_TIMING: SlotTiming = {
   spinMs: 650,
   reelStaggerMs: 220,
+  anticipationMs: 650,
   evaluateMs: 150,
   freeSpinNoWinMs: 550,
   showWinsMs: 1500,
@@ -39,10 +43,11 @@ export const NORMAL_TIMING: SlotTiming = {
   winCycleMs: 1000,
 }
 
-/** prefers-reduced-motion: no long scrolls, shorter holds. */
+/** prefers-reduced-motion: no long scrolls, no anticipation delay, shorter holds. */
 export const REDUCED_MOTION_TIMING: SlotTiming = {
   spinMs: 120,
   reelStaggerMs: 40,
+  anticipationMs: 0,
   evaluateMs: 50,
   freeSpinNoWinMs: 250,
   showWinsMs: 900,
@@ -80,7 +85,11 @@ export function nextAutoStep(state: SlotState, timing: SlotTiming): AutoStep | n
     case 'SPINNING':
       return { action: { type: 'STOP_REEL' }, delayMs: timing.spinMs }
     case 'STOPPING':
-      return { action: { type: 'STOP_REEL' }, delayMs: timing.reelStaggerMs }
+      // The next reel to stop is index `reelsStopped`; it may tease a scatter first.
+      return {
+        action: { type: 'STOP_REEL' },
+        delayMs: timing.reelStaggerMs + (reelAnticipates(state, state.reelsStopped) ? timing.anticipationMs : 0),
+      }
     case 'EVALUATING':
       return {
         action: { type: 'REVEAL' },

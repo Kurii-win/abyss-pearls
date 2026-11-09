@@ -15,11 +15,16 @@ interface ReelSetProps {
   readonly highlightStep: WinCycleStep
   readonly scale: number
   readonly reducedMotion: boolean
+  /** Per reel: spinning longer with a glow (scatter anticipation). */
+  readonly anticipating: readonly boolean[]
+  /** Dim the reels (a big-win celebration is on top). */
+  readonly dimmed: boolean
 }
 
 /** Reel frame, the five reels, and the overlay for win highlights and wild badges. */
 export default function ReelSet(props: ReelSetProps) {
-  const { reels, reelsStopped, reelsMoving, slammed, showHighlights, highlightStep, scale, reducedMotion } = props
+  const { reels, reelsStopped, reelsMoving, slammed, showHighlights, highlightStep, scale, reducedMotion, anticipating, dimmed } =
+    props
   const f = LAYOUT.reel_frame
   const cell = LAYOUT.cell * scale
   const highlights = reels.winHighlights
@@ -38,7 +43,7 @@ export default function ReelSet(props: ReelSetProps) {
 
   return (
     <div
-      className="reel-frame"
+      className={`reel-frame${dimmed ? ' reel-frame--dimmed' : ''}`}
       data-testid="reels"
       data-mode={reels.mode}
       data-stops={reelsMoving ? undefined : reels.stops.join(',')}
@@ -59,6 +64,7 @@ export default function ReelSet(props: ReelSetProps) {
             slammed={slammed}
             cell={cell}
             reducedMotion={reducedMotion}
+            anticipating={anticipating[r] ?? false}
           />
         ))}
         <div className="cell-overlay" aria-hidden="true">

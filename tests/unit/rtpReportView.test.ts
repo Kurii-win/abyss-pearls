@@ -108,6 +108,25 @@ describe('RTP_REPORT_VIEW on the committed report', () => {
     })
   })
 
+  it('breakdown reads as a ledger: base total, its parts, feature, then the total (tester M4 g)', () => {
+    expect(v.breakdown.map((b) => [b.id, b.level ?? 0, b.total ?? false])).toEqual([
+      ['base-total', 0, false],
+      ['base-ways', 1, false],
+      ['scatter', 1, false],
+      ['feature', 0, false],
+      ['total', 0, true],
+    ])
+    for (const part of v.breakdown.filter((b) => b.level === 1)) expect(part.label).toMatch(/^of which /)
+  })
+
+  it('only hashes are marked as hashes (normal wrapping elsewhere, tester M4 h)', () => {
+    expect(v.reproducibility.filter((r) => r.hash).map((r) => r.id)).toEqual(['math-hash', 'code-hash'])
+  })
+
+  it('the wins-only chart caption says the minimum tick is not to scale (tester M4 j)', () => {
+    expect(v.distribution[1].caption).toContain('minimum 2 px tick (not to scale)')
+  })
+
   it('independent check: z from plain sim vs headline', () => {
     const { plainSim: p, headline: h } = raw.rtp
     const z = (p.value - h.value) / Math.sqrt(p.standardError ** 2 + h.standardError ** 2)

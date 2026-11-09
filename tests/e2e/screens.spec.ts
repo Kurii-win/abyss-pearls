@@ -1,5 +1,6 @@
 /**
- * Screenshots for the pitch docs (docs/screens/). Skipped unless SCREENSHOTS=1:
+ * Screenshots for the pitch docs (docs/screens/) and the Open Graph image
+ * (public/og-image.png). Skipped unless SCREENSHOTS=1:
  *   SCREENSHOTS=1 npx playwright test screens
  */
 import { expect, test } from '@playwright/test'
@@ -68,4 +69,37 @@ test.describe('portfolio pages (390 px)', () => {
       await page.screenshot({ path: `docs/screens/${name}-mobile.png`, fullPage: true })
     })
   }
+})
+
+test.describe('Play on a phone (390 px, DPR 3)', () => {
+  test.use({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 3 })
+
+  test('play, mobile', async ({ page }) => {
+    await page.goto('/play?seed=11')
+    await page.getByTestId('spin-button').click()
+    await expect(page.getByTestId('slot')).toHaveAttribute('data-phase', 'SHOWING_WINS', { timeout: 5_000 })
+    await page.waitForTimeout(1_000)
+    await page.screenshot({ path: 'docs/screens/play-mobile.png' })
+  })
+
+  test('free spins, mobile', async ({ page }) => {
+    test.setTimeout(60_000)
+    await page.goto('/play?seed=219')
+    await page.getByTestId('spin-button').click()
+    await expect(page.getByTestId('free-spin-counter')).toHaveText('Free spin 2 / 8', { timeout: 20_000 })
+    await expect(page.getByTestId('slot')).toHaveAttribute('data-phase', 'SHOWING_WINS', { timeout: 10_000 })
+    // DPR 3 captures are slow: shoot early so free spin 2's win highlights are still up.
+    await page.waitForTimeout(300)
+    await page.screenshot({ path: 'docs/screens/play-free-spins-mobile.png' })
+  })
+})
+
+test.describe('Open Graph image', () => {
+  test.use({ viewport: { width: 1200, height: 630 } })
+
+  test('og image (home hero, 1200 × 630)', async ({ page }) => {
+    await page.goto('/')
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
+    await page.screenshot({ path: 'public/og-image.png' })
+  })
 })

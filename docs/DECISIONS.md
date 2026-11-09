@@ -33,3 +33,8 @@
 | 2026-11-09 | Contact page: placeholder links Kurii fills in, no form backend; no email published | Privacy; no server |
 | 2026-11-09 | Sound: WebAudio-synthesised SFX, enabled after first interaction, mute toggle | Original IP, no sample files; browser autoplay rules |
 | 2026-11-09 | Round settles at Spin press (bet + full win incl. feature booked and saved at once); display counts up; reload mid-feature shows the final balance | Mirrors how a game server settles; consistent with "Model decides, View performs" |
+| 2026-11-09 | Anticipation: reels after the 2nd visible chest glow and stop +650 ms each (0 with reduced motion); slam stop cancels it | Classic tension beat; presentation of an already-decided grid |
+| 2026-11-09 | Mobile reels scaled so each art pixel covers a whole number of device pixels (k = floor(width × DPR / 260), cssScale = k / DPR); edge-to-edge on phones; Spin button fixed at 96 CSS px | Sharp pixel art at every DPR; thumb-friendly |
+| 2026-11-09 | Sound on by default once the first gesture unlocks audio; mute persisted; big-win celebration skippable by tap/Space; bet-lock hint visible during features | Browser autoplay rules; player control |
+| 2026-11-09 | Production smoke suite `npm run e2e:prod` against `vite preview` (4173); runtime makes same-origin requests only | Pitch build is tested as shipped |
+| 2026-11-09 | Cross-tab wallet: stored data carries a monotonic revision; each tab re-reads storage before settling and ignores stale data. Two tabs pressing Spin within the same storage-event window (ms) remain last-writer-wins | Tester found a race that lost a settlement; a localStorage demo has no server lock, so the residual ms window is accepted and documented |

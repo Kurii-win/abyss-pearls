@@ -308,3 +308,32 @@ describe('free-spins feature', () => {
     expect(s.history[0]).toMatchObject({ capped: true, freeSpins: 2 })
   })
 })
+
+describe('SYNC_STORAGE (another tab saved the wallet)', () => {
+  const other = { balance: 4_321, betLevel: 2, history: [{ id: 9, bet: 100, winPearls: 0, freeSpins: 0, capped: false }] }
+
+  it('adopts balance, bet and history when IDLE', () => {
+    const s = slotReducer(fresh(), { type: 'SYNC_STORAGE', data: other })
+    expect(s).toMatchObject({ phase: 'IDLE', balance: 4_321, betLevel: 2, history: other.history })
+    expect(displayedBalance(s)).toBe(4_321)
+  })
+
+  it('after a finished round too: the round stays on screen, nothing is hidden', () => {
+    const s = slotReducer(playRound(fresh(), BASE_WIN), { type: 'SYNC_STORAGE', data: other })
+    expect(s.balance).toBe(4_321)
+    expect(displayedBalance(s)).toBe(4_321)
+    // The next spin continues the other tab's history ids.
+    const next = slotReducer(s, spinOf(NO_WIN))
+    expect(next.history[0].id).toBe(10)
+  })
+
+  it('is ignored mid-round (the hook re-applies it once IDLE)', () => {
+    const spinning = slotReducer(fresh(), spinOf(BASE_WIN))
+    expect(slotReducer(spinning, { type: 'SYNC_STORAGE', data: other })).toBe(spinning)
+  })
+
+  it('same wallet → same state object (no save ping-pong between tabs)', () => {
+    const s = fresh()
+    expect(slotReducer(s, { type: 'SYNC_STORAGE', data: { balance: s.balance, betLevel: s.betLevel, history: [] } })).toBe(s)
+  })
+})

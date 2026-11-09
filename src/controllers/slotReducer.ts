@@ -88,6 +88,8 @@ export type SlotAction =
   | { readonly type: 'END_FEATURE' }
   | { readonly type: 'SET_BET'; readonly level: number }
   | { readonly type: 'CLAIM_FREE_PEARLS' }
+  /** Another browser tab saved the wallet: adopt its balance, bet and history (IDLE only). */
+  | { readonly type: 'SYNC_STORAGE'; readonly data: InitialSlotData }
 
 export interface InitialSlotData {
   readonly balance: number
@@ -210,6 +212,31 @@ function reveal(state: SlotState): SlotState {
   return currentSpinCoins(state) > 0 ? { ...next, phase: 'SHOWING_WINS' } : finishSpinDisplay(next)
 }
 
+/** Same wallet as `data` (balance, bet level and history)? */
+function sameWallet(state: SlotState, data: InitialSlotData): boolean {
+  return (
+    state.balance === data.balance &&
+    state.betLevel === data.betLevel &&
+    JSON.stringify(state.history) === JSON.stringify(data.history.slice(0, HISTORY_LIMIT))
+  )
+}
+
+/**
+ * Adopt the wallet another tab saved. Only between rounds: a round in progress was
+ * settled on this tab's balance and keeps presenting; the hook re-applies the latest
+ * external data once this tab is IDLE again. The round on the reels stays as it is
+ * (display only), but its unrevealed part is already zero in IDLE.
+ */
+function syncFromStorage(state: SlotState, data: InitialSlotData): SlotState {
+  if (sameWallet(state, data)) return state
+  return {
+    ...state,
+    balance: data.balance,
+    betLevel: isBetLevel(data.betLevel) ? data.betLevel : state.betLevel,
+    history: data.history.slice(0, HISTORY_LIMIT),
+  }
+}
+
 export function slotReducer(state: SlotState, action: SlotAction): SlotState {
   switch (action.type) {
     case 'SPIN':
@@ -268,6 +295,9 @@ export function slotReducer(state: SlotState, action: SlotAction): SlotState {
     case 'CLAIM_FREE_PEARLS':
       if (state.phase !== 'IDLE' || !canClaimFreePearls(state.balance)) return state
       return { ...state, balance: claimFreePearls(state.balance) }
+
+    case 'SYNC_STORAGE':
+      return state.phase === 'IDLE' ? syncFromStorage(state, action.data) : state
 
     default:
       return state

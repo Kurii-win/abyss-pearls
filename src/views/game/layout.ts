@@ -3,6 +3,11 @@ import layout from '../../assets/ui/layout.json'
 
 export const LAYOUT = layout
 
-/** Integer display scales: 2 on desktop (96px cells), 1 on narrow screens. */
+/**
+ * Largest display scale (2 = 96 px cells, the desktop look). Below it, the reels pick
+ * the largest scale that keeps whole device pixels per art pixel (controllers/pixelScale.ts).
+ */
 export const DESKTOP_SCALE = layout.scale
-export const NARROW_SCALE = 1
+
+/** The Spin button is always 96 CSS px (integer scale 2): large and thumb-reachable on phones. */
+export const SPIN_BUTTON_SCALE = 2

@@ -19,7 +19,7 @@ const ACTORS: readonly Actor[] = [
   { name: 'useSlotMachine', layer: 'controller' },
   { name: 'spin(rng)', layer: 'model' },
   { name: 'slotReducer', layer: 'controller' },
-  { name: 'Reels, overlays', layer: 'views' },
+  { name: 'Reels, overlays', layer: 'view' },
 ]
 
 const MESSAGES: readonly Message[] = [
@@ -65,7 +65,7 @@ function Horizontal({ id }: { readonly id: string }) {
         const dir = Math.sign(x2 - x1)
         return (
           <g key={m.label}>
-            <text className="diagram__text" x={(x1 + x2) / 2} y={y - 8} textAnchor="middle">
+            <text className="diagram__text diagram__label" x={(x1 + x2) / 2} y={y - 8} textAnchor="middle">
               {i + 1}. {m.label}
             </text>
             <Arrow id={id} x1={x1 + dir * 3} y1={y} x2={x2 - dir * 5} y2={y} dashed={m.reply} />

@@ -167,11 +167,20 @@ export function volatilityLabel(sigmaX: number): string {
 
 // ---------------------------------------------------------------- view model
 
+/** Chart bars thinner than this (SVG units) are drawn at this width so a non-zero share never disappears. */
+export const MIN_TICK_PX = 2
+
 export interface StatItem {
   readonly id: string
   readonly label: string
   readonly value: string
   readonly detail?: string
+  /** 1 = a part of the row above it ("of which …"); 0 or absent = a top-level row. */
+  readonly level?: 0 | 1
+  /** The grand total row (shown apart from its parts). */
+  readonly total?: boolean
+  /** A hash: monospace and allowed to break anywhere. Other values wrap normally. */
+  readonly hash?: boolean
 }
 
 export interface DistributionBar {
@@ -280,17 +289,30 @@ export function buildRtpReportView(r: RtpReportData): RtpReportView {
       target: `Target ${formatPercent(r.target.rtp, 1)}, band ${formatPercentRange(r.target.bandLow, r.target.bandHigh, 1)}`,
       inBand: h.value >= r.target.bandLow && h.value <= r.target.bandHigh,
     },
+    // Base total, then its two parts ("of which"), then the feature; the grand total stands apart.
     breakdown: [
-      { id: 'base-ways', label: 'Base game ways pays', value: formatPercent(r.rtp.baseWays), detail: 'exact' },
-      { id: 'scatter', label: 'Scatter (Treasure Chest) pays', value: formatPercent(r.rtp.scatter), detail: 'exact' },
       { id: 'base-total', label: 'Base game total', value: formatPercent(r.rtp.baseExact), detail: 'exact' },
+      { id: 'base-ways', label: 'of which ways pays', value: formatPercent(r.rtp.baseWays), detail: 'exact', level: 1 },
+      {
+        id: 'scatter',
+        label: 'of which scatter (Treasure Chest) pays',
+        value: formatPercent(r.rtp.scatter),
+        detail: 'exact',
+        level: 1,
+      },
       {
         id: 'feature',
         label: 'Free-spin feature',
         value: formatPercent(sf.value),
         detail: `stratified simulation, 95% CI ${formatPercentRange(sf.ci95Low, sf.ci95High)}`,
       },
-      { id: 'total', label: 'Total (theoretical RTP)', value: formatPercent(h.value), detail: `95% CI ${ciRange}` },
+      {
+        id: 'total',
+        label: 'Total (theoretical RTP) = base game + feature',
+        value: formatPercent(h.value),
+        detail: `95% CI ${ciRange}`,
+        total: true,
+      },
     ],
     strata: sf.strata.map((s) => ({
       chests: formatNumber(s.chests),
@@ -378,14 +400,14 @@ export function buildRtpReportView(r: RtpReportData): RtpReportView {
         caption:
           `The same data for the ${formatNumber(winningSpins)} spins that paid, as a share of winning spins. ` +
           (largestWinBucket ? `Bars are scaled to the largest bucket (${largestWinBucket.label}); ` : '') +
-          'very small shares are drawn as a thin tick and labelled.',
+          `very small shares are drawn as a minimum ${MIN_TICK_PX} px tick (not to scale) and labelled with their exact share.`,
         bars: bars(winBuckets, winningSpins),
       },
     ],
     reproducibility: [
       { id: 'version', label: 'Math version', value: r.math.version },
-      { id: 'math-hash', label: 'Math hash', value: r.math.mathHash, detail: 'strips, paytable and feature rules' },
-      { id: 'code-hash', label: 'Code hash', value: r.math.codeHash, detail: 'source of the rule files below' },
+      { id: 'math-hash', label: 'Math hash', value: r.math.mathHash, detail: 'strips, paytable and feature rules', hash: true },
+      { id: 'code-hash', label: 'Code hash', value: r.math.codeHash, detail: 'source of the rule files below', hash: true },
       { id: 'seed', label: 'Simulation seed', value: String(r.seed), detail: `${spins} full-game spins` },
       {
         id: 'stratified-seed',
