@@ -32,3 +32,4 @@
 | 2026-11-09 | `?seed=` seeded RNG only in dev/test builds; production always crypto | Reproducible e2e tests without weakening production fairness |
 | 2026-11-09 | Contact page: placeholder links Kurii fills in, no form backend; no email published | Privacy; no server |
 | 2026-11-09 | Sound: WebAudio-synthesised SFX, enabled after first interaction, mute toggle | Original IP, no sample files; browser autoplay rules |
+| 2026-11-09 | Round settles at Spin press (bet + full win incl. feature booked and saved at once); display counts up; reload mid-feature shows the final balance | Mirrors how a game server settles; consistent with "Model decides, View performs" |

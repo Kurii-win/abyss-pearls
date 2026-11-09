@@ -18,10 +18,10 @@ Each milestone starts with `/mentor` and ends with `tester` PASS.
 - [x] Reel frame, Spin button, balance bar, background
 
 ## M3. Playable game
-- [ ] `slotReducer` state machine + `useSlotMachine` hook
-- [ ] Reels spin and stop reel-by-reel on the model's result
-- [ ] Win highlights, win counter, free-spins mode
-- [ ] Pearls wallet: balance, bet size, "Get Free Pearls", session history
+- [x] `slotReducer` state machine + `useSlotMachine` hook
+- [x] Reels spin and stop reel-by-reel on the model's result
+- [x] Win highlights, win counter, free-spins mode
+- [x] Pearls wallet: balance, bet size, "Get Free Pearls", session history
 
 ## M4. Portfolio pages
 - [ ] Home (hero + pitch + Play Demo)
