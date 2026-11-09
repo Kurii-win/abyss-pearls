@@ -43,7 +43,11 @@ test('pitch metadata and favicon are served', async ({ page, request }) => {
   await expect(page).toHaveTitle(/Abyss Pearls/)
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /virtual ✦ Pearls/i)
   await expect(page.locator('meta[name="theme-color"]')).toHaveAttribute('content', /^#/)
-  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', '/og-image.png')
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+    'content',
+    // Absolute URL: link-preview scrapers need it. Host = the GitHub Pages deployment.
+    'https://kurii-win.github.io/abyss-pearls/og-image.png',
+  )
   for (const asset of ['/favicon.png', '/og-image.png']) {
     const res = await request.get(asset)
     expect(res.status(), asset).toBe(200)

@@ -25,4 +25,7 @@ export const router = createBrowserRouter([
     Component: PlayLayout,
     children: [{ path: '/play', Component: Play }],
   },
-])
+], {
+  // '/' locally; '/abyss-pearls/' on GitHub Pages (set by `vite build --base`).
+  basename: import.meta.env.BASE_URL,
+})
