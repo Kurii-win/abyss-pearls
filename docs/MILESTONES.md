@@ -8,10 +8,10 @@ Each milestone starts with `/mentor` and ends with `tester` PASS.
 - [x] `npm run dev` shows a placeholder Home page on localhost:5173
 
 ## M1. Slot math model (no UI)
-- [ ] `rng.ts`: crypto RNG + seeded RNG behind one interface
-- [ ] `reelStrips.ts`, `paytable.ts`, `evaluator.ts` (243 ways, wilds, scatter)
-- [ ] Free spins + wild multipliers
-- [ ] `npm run sim` writes `reports/rtp-report.json`; RTP inside the target band in `docs/MATH.md`
+- [x] `rng.ts`: crypto RNG + seeded RNG behind one interface
+- [x] `reelStrips.ts`, `paytable.ts`, `evaluator.ts` (243 ways, wilds, scatter)
+- [x] Free spins + wild multipliers
+- [x] `npm run sim` writes `reports/rtp-report.json`; RTP inside the target band in `docs/MATH.md`
 
 ## M2. Art set v1
 - [ ] Palette + symbol generators (whale, 5 creatures, 4 low symbols, wild, scatter)

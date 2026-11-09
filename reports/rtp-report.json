@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-09T09:22:11.637Z",
+  "runtimeSeconds": 30.69,
+  "seed": 20261109,
+  "rng": "xoshiro128** seeded via splitmix32, rejection sampling",
+  "spins": 10000000,
+  "math": {
+    "version": "v1",
+    "mathHash": "82078b48f52069b5",
+    "codeHash": "19bc003ab563f14e",
+    "codeFiles": [
+      "src/models/evaluator.ts",
+      "src/models/freeSpins.ts",
+      "src/models/spin.ts",
+      "src/models/paytable.ts",
+      "src/models/reelStrips.ts",
+      "src/models/exactRtp.ts",
+      "src/models/rng.ts",
+      "src/models/types.ts"
+    ]
+  },
+  "game": {
+    "grid": "5x3",
+    "reels": 5,
+    "rows": 3,
+    "ways": 243,
+    "coinsPerBet": 25,
+    "winCapX": 5000,
+    "freeSpinsByChests": {
+      "3": 8,
+      "4": 12,
+      "5": 20
+    },
+    "retriggerSpins": 5,
+    "maxFreeSpins": 50,
+    "wildMultiplierWeights": [
+      {
+        "multiplier": 2,
+        "weight": 7
+      },
+      {
+        "multiplier": 3,
+        "weight": 3
+      }
+    ]
+  },
+  "target": {
+    "rtp": 0.96,
+    "bandLow": 0.955,
+    "bandHigh": 0.965
+  },
+  "rtp": {
+    "headline": {
+      "value": 0.9604950396856338,
+      "ci95Low": 0.9592945861081084,
+      "ci95High": 0.9616954932631592,
+      "standardError": 0.0006124763150639705,
+      "method": "exact base + stratified feature"
+    },
+    "plainSim": {
+      "value": 0.9586681720009157,
+      "ci95Low": 0.9541020395039422,
+      "ci95High": 0.9632343044978892,
+      "standardError": 0.002329659437231371,
+      "method": "full-game simulation"
+    },
+    "baseExact": 0.6806687380647044,
+    "baseSim": 0.6783838080041394,
+    "featureSim": 0.28028436400000567,
+    "stratifiedFeature": {
+      "seed": 20261110,
+      "featuresPerStratum": 500000,
+      "value": 0.27982630162092936,
+      "ci95Low": 0.27862584804340396,
+      "ci95High": 0.28102675519845477,
+      "standardError": 0.0006124763150639705,
+      "strata": [
+        {
+          "chests": 3,
+          "probability": 0.006280222278445527,
+          "freeSpins": 8,
+          "meanWinX": 41.447084880002386,
+          "sigmaX": 68.8400321878084
+        },
+        {
+          "chests": 4,
+          "probability": 0.00030444356915494615,
+          "freeSpins": 12,
+          "meanWinX": 62.197412320006265,
+          "sigmaX": 83.96140297406694
+        },
+        {
+          "chests": 5,
+          "probability": 0.000005726211332067953,
+          "freeSpins": 20,
+          "meanWinX": 103.69746199999994,
+          "sigmaX": 109.06842552818338
+        }
+      ]
+    },
+    "scatter": 0.015891190815043914,
+    "baseWays": 0.6647775472496605
+  },
+  "hitFrequency": 0.3186164,
+  "hitFrequencyExact": 0.31854564588831646,
+  "sigmaPerSpinX": 7.367029994157203,
+  "featureTriggerOneIn": 151.97106470927935,
+  "featureTriggerOneInExact": 151.73604105155044,
+  "features": 65802,
+  "avgFeatureWinX": 42.59511321844407,
+  "avgFreeSpinsPerFeature": 8.307103127564512,
+  "retriggerRate": 0.02275006838697912,
+  "retriggersPerFeature": 0.023464332391112733,
+  "featuresAtSpinLimit": 0,
+  "capHits": 0,
+  "capHitRate": 0,
+  "maxWinX": 2167.6,
+  "winDistribution": [
+    {
+      "label": "0×",
+      "minX": 0,
+      "maxX": 0,
+      "count": 6813836,
+      "fraction": 0.6813836
+    },
+    {
+      "label": ">0–1×",
+      "minX": 0,
+      "maxX": 1,
+      "count": 1825208,
+      "fraction": 0.1825208
+    },
+    {
+      "label": "1–2×",
+      "minX": 1,
+      "maxX": 2,
+      "count": 473603,
+      "fraction": 0.0473603
+    },
+    {
+      "label": "2–5×",
+      "minX": 2,
+      "maxX": 5,
+      "count": 527248,
+      "fraction": 0.0527248
+    },
+    {
+      "label": "5–20×",
+      "minX": 5,
+      "maxX": 20,
+      "count": 295403,
+      "fraction": 0.0295403
+    },
+    {
+      "label": "20–100×",
+      "minX": 20,
+      "maxX": 100,
+      "count": 57413,
+      "fraction": 0.0057413
+    },
+    {
+      "label": "100–1000×",
+      "minX": 100,
+      "maxX": 1000,
+      "count": 7263,
+      "fraction": 0.0007263
+    },
+    {
+      "label": "1000×+",
+      "minX": 1000,
+      "maxX": null,
+      "count": 26,
+      "fraction": 0.0000026
+    }
+  ]
+}

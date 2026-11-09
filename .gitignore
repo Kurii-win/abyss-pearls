@@ -6,3 +6,9 @@ playwright-report/
 test-results/
 coverage/
 *.tsbuildinfo
+
+# Genre research notes: local only, never committed (names a commercial game)
+docs/REFERENCE.md
+
+# Sim experiments (SIM_* overrides); the official reports/rtp-report.json is committed
+reports/rtp-report.experiment.json

@@ -10,7 +10,7 @@
     "lint": "eslint .",
     "test": "vitest run",
     "e2e": "playwright test",
-    "sim": "node -e \"console.log('sim not implemented until M1')\"",
+    "sim": "tsx tools/sim/runSim.ts",
     "art": ".venv/bin/python tools/art/build_all.py"
   },
   "dependencies": {
@@ -29,6 +29,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.14.0",
+    "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.72.1",
     "vite": "^8.3.6",

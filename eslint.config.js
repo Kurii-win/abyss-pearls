@@ -19,6 +19,37 @@ export default defineConfig([
       ecmaVersion: 2022,
       globals: { ...globals.browser, ...globals.node },
     },
+    rules: {
+      // CLAUDE.md section 5: all randomness goes through src/models/rng.ts.
+      'no-restricted-properties': ['error', {
+        object: 'Math',
+        property: 'random',
+        message: 'Use the Rng from src/models/rng.ts (crypto or seeded), never Math.random().',
+      }],
+      // Close the aliasing gaps no-restricted-properties cannot see.
+      'no-restricted-syntax': ['error',
+        {
+          selector: "MemberExpression[object.name='Math'][computed=true]",
+          message: 'No computed access on Math (could hide Math.random). Use src/models/rng.ts.',
+        },
+        {
+          selector: "MemberExpression[property.name='random'][object.type='MemberExpression'][object.property.name='Math']",
+          message: 'Use the Rng from src/models/rng.ts, never (globalThis|window).Math.random().',
+        },
+        {
+          selector: "MemberExpression[object.name=/^(globalThis|window|self|global)$/][property.name='Math']",
+          message: 'Do not reach Math through the global object (could hide Math.random). Use Math directly.',
+        },
+        {
+          selector: "VariableDeclarator[init.name='Math'], AssignmentExpression[right.name='Math']",
+          message: 'Do not alias or destructure Math (could hide Math.random). Use src/models/rng.ts.',
+        },
+        {
+          selector: "CallExpression > Identifier.arguments[name='Math']",
+          message: 'Do not pass Math around (could hide Math.random). Use src/models/rng.ts.',
+        },
+      ],
+    },
   },
 
   // ---- MVC layer enforcement (CLAUDE.md section 3, DECISIONS 2026-11-09) ----
