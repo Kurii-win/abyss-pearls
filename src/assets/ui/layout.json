@@ -1,0 +1,62 @@
+{
+  "balance_bar": {
+    "file": "ui/balance_bar.png",
+    "h": 22,
+    "segments": [
+      {
+        "h": 14,
+        "name": "balance",
+        "w": 80,
+        "x": 4,
+        "y": 4
+      },
+      {
+        "h": 14,
+        "name": "bet",
+        "w": 80,
+        "x": 90,
+        "y": 4
+      },
+      {
+        "h": 14,
+        "name": "win",
+        "w": 80,
+        "x": 176,
+        "y": 4
+      }
+    ],
+    "w": 260
+  },
+  "cell": 48,
+  "cell_highlight": {
+    "file": "ui/cell_highlight.png",
+    "h": 48,
+    "w": 48
+  },
+  "note": "All coordinates are native pixels; multiply by scale. Text is rendered by the View.",
+  "reel_frame": {
+    "cols": 5,
+    "file": "ui/reel_frame.png",
+    "h": 164,
+    "inner": {
+      "h": 144,
+      "w": 240,
+      "x": 10,
+      "y": 10
+    },
+    "inner_fill": "opaque",
+    "rows": 3,
+    "w": 260
+  },
+  "scale": 2,
+  "spin_button": {
+    "h": 48,
+    "states": {
+      "disabled": "ui/spin_button_disabled.png",
+      "freespins": "ui/spin_button_freespins.png",
+      "idle": "ui/spin_button_idle.png",
+      "pressed": "ui/spin_button_pressed.png"
+    },
+    "w": 48
+  }
+}

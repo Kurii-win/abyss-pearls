@@ -1,0 +1,155 @@
+{
+  "files": [
+    {
+      "file": "bg/background.png",
+      "h": 180,
+      "sha256": "9b94132d8e05b7d852a9f1d3f0677074743c5e957684edb1de83e36467c6f1ad",
+      "w": 320
+    },
+    {
+      "file": "bg/background_freespins.png",
+      "h": 180,
+      "sha256": "7d138a5b35e1a8eb826925a82f0e640ad56db95c479809036873dabf4a555a02",
+      "w": 320
+    },
+    {
+      "file": "symbols/anchor.png",
+      "h": 48,
+      "sha256": "8b118005e0a13c5513bfc6089662020e3e2137c26d6692f66b2bea6a399d905a",
+      "w": 48
+    },
+    {
+      "file": "symbols/angler.png",
+      "h": 48,
+      "sha256": "4d6f6b1196dafecc8a14059330361581d76b22a624960450c67ed40d4aa2b652",
+      "w": 48
+    },
+    {
+      "file": "symbols/badge_x2.png",
+      "h": 48,
+      "sha256": "b8436c82c2a644d9efb0921b63efe42529fd09b893196311799ffb68a56e9f0e",
+      "w": 48
+    },
+    {
+      "file": "symbols/badge_x3.png",
+      "h": 48,
+      "sha256": "1a4b45185d7c5e80d5174f3ab4879c1debd3ad37dae3e936b2e61da74f61050c",
+      "w": 48
+    },
+    {
+      "file": "symbols/chest.png",
+      "h": 48,
+      "sha256": "883fa1db49bb1a33d18f2573d78e52e8e92c5a437e2052733a302a2f5159158b",
+      "w": 48
+    },
+    {
+      "file": "symbols/octopus.png",
+      "h": 48,
+      "sha256": "484dcbf8bf9c50129082a646e3e6f1e850ce32faf2cb277f0ebf0bc7e8ae9c3c",
+      "w": 48
+    },
+    {
+      "file": "symbols/pearl.png",
+      "h": 48,
+      "sha256": "447d2cf0f146587fdbf2bf88ab0e56c98929c794df5a257f73cc5bc539b86945",
+      "w": 48
+    },
+    {
+      "file": "symbols/shark.png",
+      "h": 48,
+      "sha256": "013d88d2fa33565c3854a9675c270168e1b2b6802ecbbbb8cef46c71f3830c15",
+      "w": 48
+    },
+    {
+      "file": "symbols/shell.png",
+      "h": 48,
+      "sha256": "bd8221a39264adf1aea6d6038276ca9bf71c7a4ddc6f9af790d8e9c44e42fcd9",
+      "w": 48
+    },
+    {
+      "file": "symbols/starfish.png",
+      "h": 48,
+      "sha256": "8df4b129408923a18c161854e816f60b03bf97a6a0b8418d29d94da0c2b89a81",
+      "w": 48
+    },
+    {
+      "file": "symbols/turtle.png",
+      "h": 48,
+      "sha256": "46a63685552ead9a6ee2ed5851156c6745d492f41bd1c3c8556b64ea698daa57",
+      "w": 48
+    },
+    {
+      "file": "symbols/whale_bottom.png",
+      "h": 48,
+      "sha256": "56010581d239ab0df090835f1c85aff35196844fe63a44c67efa9865f88bbd56",
+      "w": 48
+    },
+    {
+      "file": "symbols/whale_mid.png",
+      "h": 48,
+      "sha256": "75c7ee3f5998142fdfb57ebdc7fdf6cc799f4c507980a77e656a2c8f6a820d98",
+      "w": 48
+    },
+    {
+      "file": "symbols/whale_single.png",
+      "h": 48,
+      "sha256": "c3839e4181fde6e0115ba7ddb452d1f1a4390eb41215deb458ecf5115c0357c3",
+      "w": 48
+    },
+    {
+      "file": "symbols/whale_top.png",
+      "h": 48,
+      "sha256": "e0414b02a90bd5c0e3e1c7b5e1cada6ffced6a712ab841e4f7c4c2daa9f6bfac",
+      "w": 48
+    },
+    {
+      "file": "symbols/wild.png",
+      "h": 48,
+      "sha256": "98daa8a2d1e65f6381a04f6908be870ea1be6f7523c155cbe73b761ccc5bed3d",
+      "w": 48
+    },
+    {
+      "file": "ui/balance_bar.png",
+      "h": 22,
+      "sha256": "4134d3498aa22fd0983f3136165451658ee123820ad64beb2c8ecce78f283da8",
+      "w": 260
+    },
+    {
+      "file": "ui/cell_highlight.png",
+      "h": 48,
+      "sha256": "9b9b552ac653c7d2e8542bd75bf49d3842885905c2b2bf0cc1c61a42203e3b97",
+      "w": 48
+    },
+    {
+      "file": "ui/reel_frame.png",
+      "h": 164,
+      "sha256": "11f95f0dc1d497ac927e145e69cf5aba52535c9eceb0b2081e2c33d730026eab",
+      "w": 260
+    },
+    {
+      "file": "ui/spin_button_disabled.png",
+      "h": 48,
+      "sha256": "8c2411264697d27f761a583f122805f007b06107ae3d332ba4a14e239273251d",
+      "w": 48
+    },
+    {
+      "file": "ui/spin_button_freespins.png",
+      "h": 48,
+      "sha256": "ca4d1474dbb6064419393afdc3314d146b20d81e25e5f8fc3eeea6ddfb104a38",
+      "w": 48
+    },
+    {
+      "file": "ui/spin_button_idle.png",
+      "h": 48,
+      "sha256": "d36c70aaf9fdcb07d4ebe51e46499db0859b835168db4797ab72241545922e26",
+      "w": 48
+    },
+    {
+      "file": "ui/spin_button_pressed.png",
+      "h": 48,
+      "sha256": "1b8bff1be27d648b1aae1413afb247c39d0ade71f8c868a8a380cf23ceba4f28",
+      "w": 48
+    }
+  ],
+  "generator": "tools/art/build_all.py"
+}

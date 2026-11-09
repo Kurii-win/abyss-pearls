@@ -14,8 +14,8 @@ Each milestone starts with `/mentor` and ends with `tester` PASS.
 - [x] `npm run sim` writes `reports/rtp-report.json`; RTP inside the target band in `docs/MATH.md`
 
 ## M2. Art set v1
-- [ ] Palette + symbol generators (whale, 5 creatures, 4 low symbols, wild, scatter)
-- [ ] Reel frame, Spin button, balance bar, background
+- [x] Palette + symbol generators (whale, 5 creatures, 4 low symbols, wild, scatter)
+- [x] Reel frame, Spin button, balance bar, background
 
 ## M3. Playable game
 - [ ] `slotReducer` state machine + `useSlotMachine` hook

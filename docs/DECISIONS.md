@@ -24,3 +24,11 @@
 | 2026-11-09 | Art: 48×48 native tiles shown at integer scale (×2), `image-rendering: pixelated` | Enough detail to tell 11 symbols apart; sharp pixels |
 | 2026-11-09 | Stacked Whale drawn as joined segments (single/top/mid/bottom); View picks the segment from neighbouring strip cells | Memorable hero moment; presentation only, outcome unchanged |
 | 2026-11-09 | Own ~24-colour deep-sea palette in `tools/art/palette.py` | Fully original; one-file reskin |
+| 2026-11-09 | Art set v1 approved as-is (27-colour palette) | Kurii reviewed the mock reel; revisions (whale head detail, quieter low symbols, chest rays) parked for later |
+| 2026-11-09 | Combined /mentor lesson for M3–M5 approved in one go; build M3 → M4 → M5 with tester + commit per milestone | Kurii wants the finished demo; Hard rule 5 satisfied by one approved lesson covering all three |
+| 2026-11-09 | Rendering: DOM + CSS transforms (no Canvas/Pixi) | 15 cells; React-friendly; Playwright-testable |
+| 2026-11-09 | Wallet: start 10,000 ✦ in localStorage; "Get Free Pearls" +5,000 only when balance < min bet; last 50 spins history | Virtual currency only; simple and honest |
+| 2026-11-09 | Free spins auto-play with Skip; slam-stop on second Spin press | Model already decided; View only presents |
+| 2026-11-09 | `?seed=` seeded RNG only in dev/test builds; production always crypto | Reproducible e2e tests without weakening production fairness |
+| 2026-11-09 | Contact page: placeholder links Kurii fills in, no form backend; no email published | Privacy; no server |
+| 2026-11-09 | Sound: WebAudio-synthesised SFX, enabled after first interaction, mute toggle | Original IP, no sample files; browser autoplay rules |
